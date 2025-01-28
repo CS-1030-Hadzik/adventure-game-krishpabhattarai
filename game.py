@@ -25,7 +25,11 @@ print(f"Welcome, {player_name}! Your journey begins now.")
 starting_area = """
 You find yourself in a dark forest.
 The sound of rustling leaves fills the air.
-A fi=aint paths lies ahead, leading deeper into the 
+A faint paths lies ahead, leading deeper into the 
 unknown...
 """
 print(starting_area)
+
+# Ask the players for their first decision
+decision = input("Do you wish to take the path?  (yes or no): ")
+print(decision)
