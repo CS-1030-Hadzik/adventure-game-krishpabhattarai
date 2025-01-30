@@ -15,7 +15,7 @@ print('Your journey begins here...')
 #Ask for the player's name
 player_name = input("What is your name, adventurer? ")
 
-#Concatenate strings to create a personalized messsage
+#Concate nate strings to create a personalized messsage
 print("Welcome, " + player_name + "! Your journey begins now.")
 
 # Use an f-string to display the same message in a more readable way
@@ -31,5 +31,13 @@ unknown...
 print(starting_area)
 
 # Ask the players for their first decision
-decision = input("Do you wish to take the path?  (yes or no): ")
-print(decision)
+decision = input("Do you wish to take the path?  (yes or no): ").lower()
+
+#Respond based on the player's decision
+if decision == "yes":
+    print(f"Brave choice, {player_name}!" " You step on the path and venture forward")
+
+elif decision == "no":
+    print(f"{player_name}, you decide to wait. Perhaps courage will find you later.")
+else:
+    print("Confused, you stand still, unsure of what to do.")
