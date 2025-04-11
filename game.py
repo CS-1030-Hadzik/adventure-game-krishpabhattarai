@@ -8,8 +8,8 @@ to navigate through a mysterious forest. Now uses inventory and flags to affect 
 """
 
 #------------------------
- # Player class to store player info and game state
- #------------------------
+# Player class to store player info and game state
+#------------------------
 class Player:
      def __init__(self, name):
          self.name = name
@@ -19,8 +19,8 @@ class Player:
          self.has_lantern = False
  
 # -----------------------------
- # Welcome the player and create the Player object
- # -----------------------------
+# Welcome the player and create the Player object
+# -----------------------------
 
 def welcome_player():
      name = input("What is your name, adventurer? ")
@@ -29,8 +29,8 @@ def welcome_player():
      return player
  
 # -----------------------------
- # Describe the starting area
- # -----------------------------
+# Describe the starting area
+# -----------------------------
 def describe_area():
     print("""
      You find yourself in a dark forest.
@@ -45,11 +45,33 @@ def add_to_inventory(player, item):
     player.inventory.append(item)
     print(f"You picked up a {item}!")
  
+ #-------------------------------
+ # Stay Sill remove health if they stay still 
+ #-------------------------------
+def stay_still(player):
+     print("The cold saps your energy...")
+     player.health -= 10
+ 
+ #------------------------------
+ # Check lose 
+ #  If health is 0 or lower, print lose message and exit
+ #------------------------------
+def check_lose(player):
+     return player.health <= 0 # true or false
+ 
+ #------------------------------
+ # Check win function
+ # If "treasure" and "rare herbs" are both in inventory, 
+ # print win message and exit
+ #------------------------------
+def check_win(player):
+     return "treasure" in player.inventory and "rare herbs" in player.inventory
+ 
 #-----------------------------
- # explore_dark_woods
- # describes dar woods
- # add the lantern to inventory
- # -----------------------------
+# explore_dark_woods
+# describes dar woods
+# add the lantern to inventory
+# -----------------------------
 def explore_dark_woods(player):
      print(f"{player.name}, you step into the dark woods...")
      
@@ -60,9 +82,9 @@ def explore_dark_woods(player):
      else:
       print("You've already found the lantern here!")
  
- # -----------------------------
- # Mountain pass area
- # -----------------------------
+# -----------------------------
+# Mountain pass area
+# -----------------------------
 def explore_mountain_pass(player):
      print(f"{player.name}, you head toward the mountain pass...")
      if "map" not in player.inventory:
@@ -71,9 +93,9 @@ def explore_mountain_pass(player):
      else:
          print("You've already picked up the map from here!")
  
- # -----------------------------
- # Cave area
- # -----------------------------
+# -----------------------------
+# Cave area
+# -----------------------------
 def explore_cave(player):
      # Conditional logic: need lantern to explore the cave
      if player.has_lantern:
@@ -83,13 +105,14 @@ def explore_cave(player):
              add_to_inventory(player, "treasure")
          else:
              print("You already collected the treasure for the cave")
-     else:
+     else: #No lantern
          print("It’s too dark to explore the cave without a lantern!")
          print("Maybe you should find a light source first.")
+         player.health -= 10
  
- # TODO: Create a function called explore_hidden_valley(player)
- #       - If player.has_map: allow entry and add "rare herbs"
- #       - Else: warn that player can't find the valley
+# -----------------------------
+# Hidden Valley area
+# -----------------------------
 def explore_hidden_valley(player):
      # Conditional logic: need map to find the hidden valley
      if player.has_map:
@@ -99,12 +122,13 @@ def explore_hidden_valley(player):
              add_to_inventory(player, "rare herbs")
          else:
              print("You already have the rare herbs")
-     else:
+     else: #No map
          print("You wander in circles, unable to find anything special without a map.")
+         player.health -= 10
 
 # -----------------------------
- # Main program
- # -----------------------------
+# Main program
+# -----------------------------
 player = welcome_player()
 describe_area()
 
@@ -116,6 +140,7 @@ while True:
      print("\t4. Search for a hidden valley.")
      print("\t5. Stay where you are.")
      print("\tType 'i' to view your inventory.")
+     print(f"Current Health: {player.health}")
  
      decision = input("What will you do (1,2,3,4,5, or i): ").lower()
     
@@ -137,10 +162,26 @@ while True:
 
      elif decision == "5":
          print("You stay still, listening to the sounds of the forest.")
+         stay_still(player)
      else:
          print("Invalid choice. Please choose 1, 2, 3, 4, 5, or 'i'.")
  
-     # Ask if the player wants to continue
+# Check if the player has the treasure and rare herbs
+# break out of the while loop
+     if check_win(player):
+         print(f"\nCongratulations, {player.name}! "
+               "You found both the treasure and the rare herbs")
+         print("You have conquered the mysterious forest!")
+         break
+ 
+# Check if the player has lost all health 
+# break out of the while loop
+     if check_lose(player):
+         print(f"\n{player.name}, you have run out of health and collapse from exhaustion.")
+         print("Your adventure ends here...")
+         break
+
+# Ask if the player wants to continue
      play_again = input("Do you want to continue exploring? (yes or no): ").lower()
      if play_again != "yes":
         print(f"Thanks for playing, {player.name} " "See you next time.")
