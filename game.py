@@ -126,7 +126,7 @@ while True:
                "1, 2, or 3.")
          
 # Ask if they want to continue
-        play_again = input("Do you want to continue "
+     play_again = input("Do you want to continue "
                         "exploring? (yes or no): ").lower()
      if play_again != "yes":
         print(f"Thanks for playing, {player.name} "
