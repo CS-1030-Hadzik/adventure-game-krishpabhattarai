@@ -144,4 +144,4 @@ while True:
      if play_again != "yes":
         print(f"Thanks for playing, {player_name} "
                "See you next time.")
-        break # Exit the loop and end the game     
+        break # Exit the loop and end the game
